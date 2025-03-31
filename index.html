@@ -1,69 +1,79 @@
-<!-- Simple Swipe-to-Claim Page (Without Glide) -->
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        body { font-family: Arial; text-align: center; padding: 50px; }
-        #swipeArea {
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f7f3f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             width: 90%;
-            margin: 0 auto;
-            background: #f0f0f0;
-            border-radius: 10px;
-            padding: 40px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            max-width: 400px;
+            padding: 30px;
+            text-align: center;
+        }
+        h2 {
+            color: #4CAF50;
+            margin-bottom: 20px;
         }
         #swipeButton {
-            padding: 20px;
+            padding: 15px 30px;
             background: #4CAF50;
             color: white;
             border: none;
             border-radius: 30px;
             font-size: 18px;
-            width: 80%;
             cursor: pointer;
-            transition: 0.3s;
+            transition: 0.4s;
         }
-        #swipeButton:active {
-            transform: translateX(20px);
+        #swipeButton:hover {
+            transform: scale(1.05);
+            background: #45a049;
         }
         #status {
             margin-top: 20px;
-            font-size: 20px;
-            color: green;
+            font-size: 18px;
+            color: #4CAF50;
+            min-height: 30px;
         }
     </style>
 </head>
 <body>
 
-<h2>?? Swipe to Claim Your Free Coffee!</h2>
-<div id="swipeArea">
-    <button id="swipeButton">?? Swipe to Claim</button>
+<div id="card">
+    <h2>🎉 Free Coffee Unlocked!</h2>
+    <p>Swipe below to claim your reward</p>
+    <button id="swipeButton">👉 Swipe to Claim</button>
     <div id="status"></div>
 </div>
 
 <script>
     document.getElementById("swipeButton").addEventListener("click", function() {
-        // Get loyalty ID from URL
         const urlParams = new URLSearchParams(window.location.search);
         const loyaltyId = urlParams.get('id');
-
         if(!loyaltyId) {
             alert("Invalid or missing Loyalty ID");
             return;
         }
-
-        // Send claim to Google Apps Script Web App
-        fetch("https://script.google.com/macros/s/AKfycbzhe89s_3uTm_sDVUHgdjOStg_-P1wsSzWJfe2ZSoTmBouLknZR0fT7ssbnP0cuOS9S/exec?id=" + loyaltyId)
+        fetch("https://script.google.com/macros/s/AKfycbzhe89s_3uTm_sDVUHgdjOStg_-P1wsSzWJfe2ZSoTmBouLknZR0fT7ssbnP0cuOS9S/exec" + "?id=" + loyaltyId)
             .then(res => res.text())
             .then(data => {
                 if(data === "claimed") {
-                    document.getElementById("status").innerHTML = "? Successfully claimed! Show this screen to the barista.";
+                    document.getElementById("status").innerHTML = "✅ Successfully claimed! Show this to your barista.";
                     document.getElementById("swipeButton").style.display = "none";
                 } else if(data === "already_claimed") {
-                    document.getElementById("status").innerHTML = "? Already claimed!";
+                    document.getElementById("status").innerHTML = "☕ Already claimed!";
                     document.getElementById("swipeButton").style.display = "none";
                 } else {
-                    document.getElementById("status").innerHTML = "? Something went wrong.";
+                    document.getElementById("status").innerHTML = "❌ Something went wrong.";
                 }
             });
     });

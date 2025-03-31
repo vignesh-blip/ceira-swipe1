@@ -63,7 +63,7 @@
             alert("Invalid or missing Loyalty ID");
             return;
         }
-        fetch("https://script.google.com/macros/s/AKfycbzhe89s_3uTm_sDVUHgdjOStg_-P1wsSzWJfe2ZSoTmBouLknZR0fT7ssbnP0cuOS9S/exec" + "?id=" + loyaltyId)
+        fetch("https://script.google.com/macros/s/AKfycbzhe89s_3uTm_sDVUHgdjOStg_-P1wsSzWJfe2ZSoTmBouLknZR0fT7ssbnP0cuOS9S/exec?id=" + loyaltyId)
             .then(res => res.text())
             .then(data => {
                 if(data === "claimed") {
